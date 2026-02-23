@@ -355,8 +355,15 @@ class _FloaterState extends State<Floater> with WidgetsBindingObserver {
           Size available;
           Alignment targetAnchor;
           Alignment followerAnchor;
+          Offset overlayOffset;
 
-          Offset overlayOffset = overlayBox.localToGlobal(Offset.zero);
+          try {
+            overlayOffset = overlayBox.localToGlobal(Offset.zero);
+          } catch (e) {
+            // if a view is sliding out can impact render box size
+            return Container();
+          }
+
           Size overlaySize = overlayBox.size;
 
           MediaQueryData mediaQuery = MediaQuery.of(overlay.context);
